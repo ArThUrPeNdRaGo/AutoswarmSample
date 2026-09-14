@@ -11,9 +11,9 @@ TrafficTest/
 │       │   │   ├── MovingSystem.h/.cpp
 │       │   │   └── SpatialGrid.h
 │       │   │
-│       │   ├── AutoswarmSimulation.h/.cpp
+│       │   ├── AutoswarmSimulation.h/.cpp         # Main system gate
 │       │   ├── Component.h
-│       │   ├── EntityManager.h/.cpp
+│       │   ├── EntityManager.h/.cpp              
 │       │   └── VehicleStorage.h/.cpp
 │       │
 │       ├── Unreal/                # Unreal-facing wrapper / rendering bridge
