@@ -8,41 +8,41 @@ TrafficTest/
 
 ├── Source/
 
-│   └── TrafficTest/
+│     └── TrafficTest/
+  
+│           ├── Autoswarm/             # Core traffic simulation logic
+  
+│           │       ├── systems/           # ECS-like systems that update vehicle data
+  
+│           │       │     ├── DrivingModelSystem.h/.cpp
+  
+│           │       │     ├── MovingSystem.h/.cpp
 
-│       ├── Autoswarm/             # Core traffic simulation logic
+│           │       │     └── SpatialGrid.h
 
-│       │   ├── systems/           # ECS-like systems that update vehicle data
+│           │       │
 
-│       │   │   ├── DrivingModelSystem.h/.cpp
+│           │       ├── AutoswarmSimulation.h/.cpp
 
-│       │   │   ├── MovingSystem.h/.cpp
+│           │       ├── Component.h
 
-│       │   │   └── SpatialGrid.h
+│           │       ├── EntityManager.h/.cpp
 
-│       │   │
+│           │       ├── VehicleStorage.h/.cpp
 
-│       │   ├── AutoswarmSimulation.h/.cpp
+│           │
 
-│       │   ├── Component.h
+│           ├── Unreal/                # Unreal-facing wrapper / rendering bridge
 
-│       │   ├── EntityManager.h/.cpp
+│           │     ├── TrafficActor.h/.cpp
 
-│       │   ├── VehicleStorage.h/.cpp
+│           │
 
-│       │
+│           ├── TrafficTest.Build.cs   # Unreal module build rules
 
-│       ├── Unreal/                # Unreal-facing wrapper / rendering bridge
+│           ├── TrafficTest.cpp        # Module entry
 
-│       │   ├── TrafficActor.h/.cpp
-
-│       │
-
-│       ├── TrafficTest.Build.cs   # Unreal module build rules
-
-│       ├── TrafficTest.cpp        # Module entry
-
-│       └── TrafficTest.h
+│           └── TrafficTest.h
 
 │
 
@@ -70,15 +70,15 @@ TrafficTest Project
 
 ├── Unreal Layer
 
-│   └── TrafficActor
+│       └── TrafficActor
 
-│       - Lives inside the Unreal world
+│           - Lives inside the Unreal world
 
-│       - Owns the visualization component (Instanced Static Mesh)
+│           - Owns the visualization component (Instanced Static Mesh)
 
-│       - Calls simulation update every frame
+│           - Calls simulation update every frame
 
-│       - Pushes simulation results into Unreal transforms
+│           - Pushes simulation results into Unreal transforms
 
 │
 
@@ -86,79 +86,79 @@ TrafficTest Project
 
 &#x20;   ├── AutoswarmSimulation
 
-&#x20;   │   - Main simulation coordinator
+&#x20;   │       - Main simulation coordinator
 
-&#x20;   │   - Owns storage and systems
+&#x20;   │       - Owns storage and systems
 
-&#x20;   │   - Decides update order each frame
+&#x20;   │       - Decides update order each frame
 
 &#x20;   │
 
 &#x20;   ├── VehicleStorage
 
-&#x20;   │   - Dense arrays of simulation data
+&#x20;   │       - Dense arrays of simulation data
 
-&#x20;   │   - positions\[]
+&#x20;   │       - positions\[]
 
-&#x20;   │   - velocities\[]
+&#x20;   │       - velocities\[]
 
-&#x20;   │   - accelerations\[]
+&#x20;   │       - accelerations\[]
 
-&#x20;   │   - drivingStates\[]
+&#x20;   │       - drivingStates\[]
 
-&#x20;   │   - vehicleStates\[]
+&#x20;   │       - vehicleStates\[]
 
 &#x20;   │
 
 &#x20;   ├── Component.h
 
-&#x20;   │   - Defines per-vehicle data types
+&#x20;   │       - Defines per-vehicle data types
 
-&#x20;   │   - Vector3
+&#x20;   │       - Vector3
 
-&#x20;   │   - Drivingstate
+&#x20;   │       - Drivingstate
 
-&#x20;   │   - VehicleState
+&#x20;   │       - VehicleState
 
 &#x20;   │
 
 &#x20;   ├── DrivingModelSystem
 
-&#x20;   │   - "AI model" for traffic behavior
+&#x20;   │       - "AI model" for traffic behavior
 
-&#x20;   │   - Chooses where each vehicle should go
+&#x20;   │       - Chooses where each vehicle should go
 
-&#x20;   │   - Updates target waypoint / steering / acceleration
+&#x20;   │       - Updates target waypoint / steering / acceleration
 
 &#x20;   │
 
 &#x20;   ├── MovingSystem
 
-&#x20;   │   - Physics / kinematics step
+&#x20;   │       - Physics / kinematics step
 
-&#x20;   │   - Uses acceleration to update velocity
+&#x20;   │       -  Uses acceleration to update velocity
 
-&#x20;   │   - Uses velocity to update position
+&#x20;   │       - Uses velocity to update position
 
 &#x20;   │
 
 &#x20;   ├── SpatialGrid
 
-&#x20;   │   - Spatial acceleration structure
+&#x20;   │       - Spatial acceleration structure
 
-&#x20;   │   - Used for nearby-vehicle lookup
+&#x20;   │       - Used for nearby-vehicle lookup
 
-&#x20;   │   - Intended for future spatial hashing / reordering
+&#x20;   │       - Intended for future spatial hashing / reordering
 
 &#x20;   │
 
 &#x20;   └── EntityManager
 
-&#x20;       - Stable identity layer
+&#x20;           - Stable identity layer
 
-&#x20;       - Intended for future entity ID ↔ slot mapping
+&#x20;           - Intended for future entity ID ↔ slot mapping
 
-&#x20;       - Not yet the hot-path simulation core
+&#x20;           - Not yet the hot-path simulation core
 
 
 
@@ -186,17 +186,17 @@ AutoswarmSimulation::update(deltaTime)
 
 &#x20;       ├── DrivingModelSystem::update(...)
 
-&#x20;       │      - Decide target waypoint
+&#x20;       │          - Decide target waypoint
 
-&#x20;       │      - Compute desired steering / acceleration
+&#x20;       │          - Compute desired steering / acceleration
 
 &#x20;       │
 
 &#x20;       └── MovingSystem::update(...)
 
-&#x20;              - velocity += acceleration \* dt
+&#x20;       │          - velocity += acceleration \* dt
 
-&#x20;              - position += velocity \* dt
+&#x20;       │          - position += velocity \* dt
 
 &#x20;       │
 
