@@ -1,0 +1,12 @@
+.vs/
+*.sln
+*.suo
+
+Binaries/
+DerivedDataCache/
+Intermediate/
+Saved/
+Build/
+
+*.xcworkspace
+*.ds_store
